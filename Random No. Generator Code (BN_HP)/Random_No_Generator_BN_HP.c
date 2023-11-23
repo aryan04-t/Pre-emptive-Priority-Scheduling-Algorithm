@@ -10,33 +10,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#define max(a,b) (((a) > (b)) ? (a) : (b))
 
-int min(int a, int b)
-{
-    if (a < b)
-    {
-        return a;
-    }
-    else
-    {
-        return b;
-    }
-}
 
-int max(int a, int b)
-{
-    if (a > b)
-    {
-        return a;
-    }
-    else
-    {
-        return b;
-    }
-}
-
-struct process
-{
+struct process{
     int pid;
     int arrival_time;
     int burst_time;
@@ -48,8 +26,7 @@ struct process
     int response_time;
 };
 
-int main()
-{
+int main(){
     int n;
     struct process p[100];
     float avg_turnaround_time;
@@ -97,8 +74,7 @@ int main()
 
     srand(time(NULL));
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         p[i].arrival_time = rand()%15;
 
         p[i].burst_time = (rand()%15) + 1;
@@ -115,16 +91,13 @@ int main()
     int completed = 0;
     int prev = 0;
 
-    while (completed != n)
-    {
+    while (completed != n){
         int idx = -1;
         int mx = -1;
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++){
 
-            if (p[i].arrival_time <= current_time && is_completed[i] == 0)
-            {
+            if (p[i].arrival_time <= current_time && is_completed[i] == 0){
 
                 if (p[i].priority > mx)
                 {
@@ -146,11 +119,9 @@ int main()
             }
         }
 
-        if (idx != -1)
-        {
+        if (idx != -1){
 
-            if (burst_remaining[idx] == p[idx].burst_time)
-            {
+            if (burst_remaining[idx] == p[idx].burst_time){
 
                 p[idx].start_time = current_time;
                 total_idle_time = total_idle_time + p[idx].start_time - prev;
@@ -160,8 +131,7 @@ int main()
             current_time++;
             prev = current_time;
 
-            if (burst_remaining[idx] == 0)
-            {
+            if (burst_remaining[idx] == 0){
 
                 p[idx].completion_time = current_time;
                 p[idx].turnaround_time = p[idx].completion_time - p[idx].arrival_time;
@@ -177,8 +147,7 @@ int main()
             }
         }
 
-        else
-        {
+        else{
             current_time++;
         }
     }
@@ -186,8 +155,7 @@ int main()
     int min_arrival_time = 10000000;
     int max_completion_time = -1;
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
 
         min_arrival_time = min(min_arrival_time, p[i].arrival_time);
         max_completion_time = max(max_completion_time, p[i].completion_time);
@@ -201,8 +169,7 @@ int main()
 
     printf("#PID\t  AT\t  BT\t  Pri.\t  ST\t  CT\t  TAT\t  WT\t  RT\t  \n");
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         printf("%d\t  %d\t  %d\t  %d\t  %d\t  %d\t  %d\t  %d\t  %d\t  \n", i + 1, p[i].arrival_time, p[i].burst_time, p[i].priority, p[i].start_time, p[i].completion_time, p[i].turnaround_time, p[i].waiting_time, p[i].response_time);
     }
 
