@@ -1,8 +1,8 @@
 // This is the code for "Preemptive Priority Scheduling Algorithm"
 
-// Here I have used the Random No. Generator Function of C programming to get the input for Arrival Time (AT), Burst Time (BT) & Priority for each process  
+// Here I have used the Random No. Generator Function of C programming to get the input for Arrival Time (AT), Burst Time (BT) & Priority for each process 
 
-// Here the Priority Preference Order which is used is: Bigger The Number, Higher The Priority. 
+// Here the Priority Preference Order which is used is: Smaller The Number, Higher The Priority.
 
 
 #include <stdio.h>
@@ -85,7 +85,7 @@ int main(){
 
         burst_remaining[i] = p[i].burst_time;
     }
-
+    
 
     int current_time = 0;
     int completed = 0;
@@ -93,13 +93,13 @@ int main(){
 
     while (completed != n){
         int idx = -1;
-        int mx = -1;
+        int mx = 10000000;
 
         for (int i = 0; i < n; i++){
 
             if (p[i].arrival_time <= current_time && is_completed[i] == 0){
 
-                if (p[i].priority > mx){
+                if (p[i].priority < mx){
 
                     mx = p[i].priority;
                     idx = i;
